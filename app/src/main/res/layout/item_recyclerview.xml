@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="139dp" />
+
+    <ImageView
+        android:id="@+id/ivPhoto"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:srcCompat="@drawable/ic_default_person"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/ivPhoto"
+        android:textSize="15sp"
+        android:textStyle="italic"
+        android:layout_margin="4dp"/>
+
+    <TextView
+        android:id="@+id/tvSurname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Surname"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/tvName"
+        android:textSize="15sp"
+        android:textStyle="italic"
+        android:layout_margin="4dp"/>
+
+    <TextView
+        android:id="@+id/tvDateOfBirth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20/04/2001"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        app:layout_constraintLeft_toRightOf="@id/ivPhoto"
+        android:textSize="15sp"
+        android:textStyle="italic"
+        android:layout_marginLeft="4dp"
+        android:layout_marginVertical="12dp"/>
+
+    <TextView
+        android:id="@+id/tvAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Age: 20"
+        app:layout_constraintTop_toBottomOf="@id/tvSurname"
+        app:layout_constraintLeft_toRightOf="@+id/tvDateOfBirth"
+        android:textSize="15sp"
+        android:textStyle="italic"
+        android:layout_margin="12dp"/>
+
+    <TextView
+        android:id="@+id/tvPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="636877389"
+        app:layout_constraintTop_toBottomOf="@id/tvDateOfBirth"
+        app:layout_constraintLeft_toRightOf="@+id/ivPhoto"
+        android:textSize="15sp"
+        android:textStyle="italic"
+        android:layout_marginLeft="4dp"
+        android:layout_marginVertical="12dp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
