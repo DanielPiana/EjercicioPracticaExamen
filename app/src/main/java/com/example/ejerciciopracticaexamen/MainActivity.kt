@@ -98,11 +98,10 @@ class MainActivity : AppCompatActivity() {
             // LIMPIAMOS LOS CAMPOS
             clearInputFields()
 
-            // LISTENER PARA VER LA LISTA (SOLO FUNCIONA DESPUES DE AÑADIR UNA PERSONA A LA LISTA NO SE POR QUE)
-            buttonVerLista.setOnClickListener {
-                mostrarListaPersonas()
-            }
-
+        }
+        // LISTENER PARA VER LA LISTA
+        buttonVerLista.setOnClickListener {
+            mostrarListaPersonas()
         }
     }
 
