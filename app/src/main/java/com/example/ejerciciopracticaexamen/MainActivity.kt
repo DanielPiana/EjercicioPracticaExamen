@@ -1,16 +1,129 @@
 package com.example.ejerciciopracticaexamen
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.Button
+import android.widget.EditText
+import android.widget.RadioGroup
+import android.widget.RadioButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.ejerciciopracticaexamen.databinding.ActivityMainBinding
+import com.example.ejerciciopracticaexamen.model.Persona
+import com.example.ejerciciopracticaexamen.model.PersonaProvider
+import com.example.ejerciciopracticaexamen.model.PersonaProvider.Companion.printList
+import com.example.ejerciciopracticaexamen.ui.ListaPersonasFragment
+import java.time.LocalDate
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
+    private lateinit var nameEditText: EditText
+    private lateinit var surnameEditText: EditText
+    private lateinit var ageEditText: EditText
+    private lateinit var phoneNumberEditText: EditText
+    private lateinit var imageOptionsRadioGroup: RadioGroup
+    private lateinit var radioDefaultImage: RadioButton
+    private lateinit var radioNoImage: RadioButton
+    private lateinit var buttonSave: Button
+    private lateinit var buttonVerLista: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // INICIALIZAMOS VARIABLES CON BINDING
+        nameEditText = binding.editTextName
+        surnameEditText = binding.editTextSurname
+        ageEditText = binding.editTextAge
+        phoneNumberEditText = binding.editTextPhoneNumber
+        imageOptionsRadioGroup = binding.imageOptionsRadioGroup
+        radioDefaultImage = binding.radioDefaultImage
+        radioNoImage = binding.radioNoImage
+        buttonSave = binding.buttonSave
+        buttonVerLista = binding.buttonVerLista
+
+
+        binding.buttonSave.setOnClickListener {
+            // OBTENEMOS LOS TEXTOS DE LOS EDITTEXT
+            val name = nameEditText.text.toString().trim()
+            val surname = surnameEditText.text.toString().trim()
+            val ageString = ageEditText.text.toString().trim()
+            val phoneNumberString = phoneNumberEditText.text.toString().trim()
+
+            // VALIDAMOS QUE LOS CAMPOS NO ESTEN VACIOS
+            if (name.isEmpty() || surname.isEmpty() || ageString.isEmpty() || phoneNumberString.isEmpty()) {
+                Toast.makeText(this, "Por favor, complete todos los campos.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // VALIDAR QUE LA EDAD Y EL NUMERO DE TELEFONO SEAN VALIDOS
+            val age = ageString.toIntOrNull()
+            val phoneNumber = phoneNumberString.toLongOrNull()
+
+            if (age == null) {
+                Toast.makeText(this, "La edad debe ser un número válido.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (phoneNumber == null) {
+                Toast.makeText(this, "El número de teléfono debe ser un número válido.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // OBTENEMOS LA OPCION SELECCIONADA PARA LA IMAGEN
+            val useDefaultImage = imageOptionsRadioGroup.checkedRadioButtonId == R.id.radioDefaultImage
+            val selectedImage = if (useDefaultImage) R.drawable.ic_default_person else null
+
+            // CREAMOS LA PERSONA
+            val nuevaPersona = Persona(
+                name = name,
+                surname = surname,
+                phoneNumber = phoneNumber,
+                age = age,
+                photoURl = selectedImage // Pasamos la imagen seleccionada (o null)
+            )
+
+            // AÑADIMOS LA NUEVA PERSONA A LA LISTA USANDO EL PROVIDER E IMPRIMIMOS LA LISTA PARA CONFIRMARLO
+            PersonaProvider.addPersona(nuevaPersona)
+            printList()
+
+            Toast.makeText(
+                this,
+                "Persona guardada: Nombre: $name, Apellido: $surname, Edad: $age, Teléfono: $phoneNumber, Imagen por defecto: $useDefaultImage",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            // LIMPIAMOS LOS CAMPOS
+            clearInputFields()
+
+            // LISTENER PARA VER LA LISTA (SOLO FUNCIONA DESPUES DE AÑADIR UNA PERSONA A LA LISTA NO SE POR QUE)
+            buttonVerLista.setOnClickListener {
+                mostrarListaPersonas()
+            }
+
+        }
+    }
+
+    private fun mostrarListaPersonas() {
+        val transaction = supportFragmentManager.beginTransaction() // CREAMOS UNA NUEVA TRANSACCION, QUE SIRVE PARA AÑADIR, REEMPLAZAR O ELIMINAR FRAGMENTOS
+        val listaPersonasFragment = ListaPersonasFragment() // CREAMOS UNA INSTANCIA DEL FRAGMENT QUE QUEREMOS MOSTRAR
+        transaction.replace(R.id.fragment_container, listaPersonasFragment) // COLOCA EL FRAGMENT EN LA PANTALLA, EN EL CONTENEDOR ESPECIFICADO (BASICAMENTE EN R.id.fragment_container, QUE ES UN FrameLayout DENTRO DE activity_main.xml, QUEREMOS COLOCAR listaPersonasFragment)
+        transaction.addToBackStack(null) // SI ESTA LINEA ESTÁ, EL USUARIO AL DARLE AL BOTON DE ATRAS SALE DEL FRAGMENT, SI NO ESTÁ, EL USUARIO SALE DE LA ACTIVITY
+        transaction.commit()
+    }
+
+    private fun clearInputFields() {
+        nameEditText.text.clear()
+        surnameEditText.text.clear()
+        ageEditText.text.clear()
+        phoneNumberEditText.text.clear()
+        radioDefaultImage.isChecked = true;
     }
 }
+
+
 
 
 // Lista de funcionalidades y elementos a implementar:

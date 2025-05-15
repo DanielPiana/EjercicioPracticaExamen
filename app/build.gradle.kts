@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.ejerciciopracticaexamen"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -33,6 +33,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -45,4 +48,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    annotationProcessor(libs.compiler) // annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+    implementation(libs.glide) // implementation("com.github.bumptech.glide:glide:4.16.0")
 }
